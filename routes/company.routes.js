@@ -20,7 +20,7 @@ router.get("/get/:id", isAdminOrModerator, validateCreateCompany, CreateCompany)
 
 // auths
 router.post(
-    "/create", // route
+    "/add", // route
     isAdminOrModerator, // middleware d'autorization sur cette route
     validateCreateCompany, // validateur yup pour le body de la requete
     CreateCompany, // fonction appeler sur cette route

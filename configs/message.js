@@ -10,7 +10,10 @@ const message = {
     invalidToken: 'Token invalide !',
     // company
     companyCreer: "Company créée avec succès !",
-    clientCreer: "Client créée avec succès !"
+    clientCreer: "Client créée avec succès !",
+    clientNonTrouve: "Client non trouver !",
+    clientSupprime: "Client supprimer !",
+    clientMaj: "Client mis a jour !"
 };
 
 export { message };

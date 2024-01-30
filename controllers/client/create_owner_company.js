@@ -5,10 +5,12 @@ import { generateRandomId, generateRandomPassword } from './../../fonctions/fonc
 import bcrypt from "bcrypt";
 
 
-const addClient = async (req, res) => {
+const addClientOwnerCompany = async (req, res) => {
     try {
         // Récupérer les données envoyées dans la requête
-        const { companyId, role, fonction, username, email, createdby } = req.body;
+        const { companyId, fonction, username, email, createdby } = req.body;
+
+        const role = "owner";
 
         // Vérifier si un client existe déjà avec cet e-mail
         const existingClientWithEmail = await Client.findOne({ 'profile.email': email });
@@ -69,4 +71,4 @@ const addClient = async (req, res) => {
     }
 }
 
-export { addClient };
+export { addClientOwnerCompany };

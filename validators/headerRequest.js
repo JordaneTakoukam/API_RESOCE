@@ -1,8 +1,9 @@
 import yup from "yup";
 
-async function valideHeaderRequestParams(req, res, next) {
+async function validateHeaderRequestParams(req, res, next) {
     try {
         const paramName = Object.keys(req.params)[0]; // Récupère le nom du paramètre dynamiquement
+
 
         const schema = yup.object().shape({
             [paramName]: yup.string().trim().length(24).matches(/^[0-9a-fA-F]{24}$/).required(),
@@ -19,4 +20,5 @@ async function valideHeaderRequestParams(req, res, next) {
     }
 }
 
-export default valideHeaderRequestParams;
+
+export { validateHeaderRequestParams };

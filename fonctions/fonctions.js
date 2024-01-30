@@ -30,7 +30,7 @@ function generateRandomId() {
 
 
 function generateRandomPassword() {
-    const characters = 'abcdefghijklmpqrstuvwxyz'; // Exclut 0 et O
+    const characters = 'abcdefghijklmpqrstuvwxyzABCDEFGHIGKLMNPQRSTUVWXYZ'; // Exclut 0 et O
     const length = 8;
     let randomId = '';
     let numCount = 0; // Compteur pour les chiffres

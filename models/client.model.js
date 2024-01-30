@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import mongoose, { Schema } from 'mongoose';
 
 const clientShema = new Schema({
@@ -12,12 +13,13 @@ const clientShema = new Schema({
         profilePicture: { type: String, default: '' },
     },
     registrationDate: { type: Date, required: true },
-    loginHistory: { type: Array, default: [] },
+    loginHistory: [{ type: Date, required: true }],
 
     online: {
         status: { type: Boolean, default: false },
         lastOnlineDate: { type: Date, default: null },
     },
+    createdby: { type: ObjectId, required: true },
 
     active: {
         suspended: { type: Boolean, default: false },
