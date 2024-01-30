@@ -1,18 +1,28 @@
 import bcrypt from "bcrypt";
-import Client from './../../../models/client.model.js';
+import User from './../../../models/user.model.js';
 import { message } from './../../../configs/message.js';
 
-const changePasswordClient = async (req, res) => {
-    const { loginId, newPassword } = req.body;
+const changePasswordUser = async (req, res) => {
+    const { loginId, oldPassword, newPassword } = req.body;
 
     try {
         // Recherche du client dans la base de données
-        const client = await Client.findOne({ loginId });
+        const user = await User.findOne({ loginId });
 
-        if (!client) {
+        if (!user) {
             return res.status(404).json({
                 success: false,
-                message: message.clientNonTrouve,
+                message: message.userNonTrouver,
+            });
+        }
+
+        // Vérification de l'ancien mot de passe
+        const passwordMatch = await bcrypt.compare(oldPassword, user.password);
+
+        if (!passwordMatch) {
+            return res.status(401).json({
+                success: false,
+                message: message.motDePasseIncorrect,
             });
         }
 
@@ -20,15 +30,14 @@ const changePasswordClient = async (req, res) => {
         const hashedPassword = await bcrypt.hash(newPassword, 10);
 
         // Mise à jour du mot de passe dans le profil du client
-        client.profile.password = hashedPassword;
+        user.password = hashedPassword;
 
         // Enregistrement des modifications
-        const updatedClient = await client.save();
+        await user.save();
 
         res.json({
             success: true,
-            message: message.motDePasseReinitialise,
-            data: updatedClient,
+            message: message.motDePasseChange,
         });
 
     } catch (error) {
@@ -40,4 +49,4 @@ const changePasswordClient = async (req, res) => {
     }
 };
 
-export default changePasswordClient;
+export default changePasswordUser;
