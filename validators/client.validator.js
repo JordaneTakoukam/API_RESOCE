@@ -9,7 +9,11 @@ async function validateCreateClient(req, res, next) {
             fonction: yup.string().required(),
             username: yup.string().required(),
             email: yup.string().required(),
-            createdby: yup.string().required(),
+            createdby: yup.object().shape({
+                type: yup.string().required(),
+                role: yup.string().required(),
+                id: yup.mixed().required(),
+            }).required()
         });
 
         const validatedData = await schema.validate(req.body);
@@ -22,6 +26,8 @@ async function validateCreateClient(req, res, next) {
         });
     }
 }
+
+
 
 
 async function validateCreateClientOwner(req, res, next) {
@@ -31,7 +37,11 @@ async function validateCreateClientOwner(req, res, next) {
             fonction: yup.string().required(),
             username: yup.string().required(),
             email: yup.string().required(),
-            createdby: yup.string().required(),
+            createdby: yup.object().shape({
+                type: yup.string().required(),
+                role: yup.string().required(),
+                id: yup.mixed().required(),
+            }).required()
         });
 
         const validatedData = await schema.validate(req.body);
@@ -44,4 +54,6 @@ async function validateCreateClientOwner(req, res, next) {
         });
     }
 }
+
+
 export { validateCreateClient, validateCreateClientOwner };

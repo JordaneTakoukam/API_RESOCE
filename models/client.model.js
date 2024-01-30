@@ -19,8 +19,11 @@ const clientShema = new Schema({
         status: { type: Boolean, default: false },
         lastOnlineDate: { type: Date, default: null },
     },
-    createdby: { type: ObjectId, required: true },
-
+    createdby: {
+        type: { type: String, required: true },
+        role: { type: String, required: true },
+        id: { type: ObjectId, required: true },
+    },
     active: {
         suspended: { type: Boolean, default: false },
         suspensionDurationInHours: { type: String, default: null },

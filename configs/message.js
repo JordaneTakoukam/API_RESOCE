@@ -13,7 +13,8 @@ const message = {
     clientCreer: "Client créée avec succès !",
     clientNonTrouve: "Client non trouver !",
     clientSupprime: "Client supprimer !",
-    clientMaj: "Client mis a jour !"
+    clientMaj: "Client mis a jour !",
+    motDePasseChange: "Mot de passe changer avec succes !"
 };
 
 export { message };

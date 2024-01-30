@@ -1,6 +1,5 @@
 import express from "express";
 
-
 //  validator yup body
 import { validateCreateClient, validateCreateClientOwner } from "../validators/client.validator.js";
 
@@ -9,6 +8,7 @@ import { validateHeaderRequestParams } from "../validators/headerRequest.js";
 
 // middleware
 import { isAdmin, isAdminOrModerator } from "../middlewares/user_middleware.js";
+import { isAdminOrOwnerOrManager } from "../middlewares/client_user_middleware.js";
 
 
 // controllers
@@ -17,7 +17,7 @@ import { getAllClients, getClient } from "../controllers/client/get_client.contr
 import { updateClient } from "../controllers/client/update_client.controller.js";
 import { deleteClient } from "../controllers/client/delete_client.controller.js";
 import { isClientAuthorized } from "../middlewares/client_middleware.js";
-import { addClientOwnerCompany } from "../controllers/client/create_owner_company.js";
+import { addClientOwnerCompany } from "../controllers/client/add_owner_company.js";
 
 
 
@@ -31,7 +31,7 @@ router.get("/get/:clientId", validateHeaderRequestParams, isClientAuthorized, va
 
 // ajouter un proprietaire d'entreprise
 router.post("/add/owner", isAdminOrModerator, validateCreateClientOwner, addClientOwnerCompany); //uniquement les users -> super-admin/admin/moderator
-router.post("/add/employed", isAdminOrModerator, validateCreateClient, addClient); // uniquement le super-admin/owner/manager
+router.post("/add/employed", isAdminOrOwnerOrManager, validateCreateClient, addClient); // uniquement le -> super-admin/admin/owner/manager
 
 
 router.put("/update/:clientId", isAdminOrModerator, validateCreateClient, updateClient);  // le super-admin, l'admin,  et le client en question

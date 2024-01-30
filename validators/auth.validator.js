@@ -37,4 +37,27 @@ async function validateSignUpUser(req, res, next) {
         });
     }
 }
-export { validateSignIn, validateSignUpUser };
+
+
+
+
+
+async function validateChangePassword(req, res, next) {
+    try {
+        const schema = yup.object().shape({
+            loginId: yup.string().required(),
+            oldPassword: yup.string().required(),
+            newPassword: yup.string().required(),
+        });
+
+        const validatedData = await schema.validate(req.body);
+        req.validatedData = validatedData;
+        next();
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            error: error.message,
+        });
+    }
+}
+export { validateSignIn, validateSignUpUser, validateChangePassword };

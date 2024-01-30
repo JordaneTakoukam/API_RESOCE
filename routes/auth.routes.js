@@ -1,7 +1,7 @@
 import express from "express";
 
 // validator yup
-import { validateSignIn, validateSignUpUser } from "./../validators/auth.validator.js";
+import { validateSignIn, validateSignUpUser, validateChangePassword } from "./../validators/auth.validator.js";
 
 
 // controllers
@@ -12,10 +12,16 @@ import signInClient from "./../controllers/auths/signin/sigin_client.controller.
 const router = express.Router();
 
 
-// auths
+// signup
 router.post("/signup/user", validateSignUpUser, signUpUser);
-router.post("/signin/user", validateSignIn, signInUser);
-router.post("/signin/client", validateSignIn, signInClient);
+
+// signin
+router.post("/signin/user", validateSignIn, signInUser); // pas besoin d'authorisation
+router.post("/signin/client", validateSignIn, signInClient); // pas besoin d'authorisation
+
+// changer de mot de passe
+router.put("/password/change/user", validateChangePassword, signInUser); // pas besoin d'authorisation
+router.put("/password/change/client", validateChangePassword, signInUser);
 
 
 

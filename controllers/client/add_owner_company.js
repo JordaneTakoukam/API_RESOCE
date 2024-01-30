@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { message } from "../../configs/message.js";
 import Client from "../../models/client.model.js";
-import { generateRandomId, generateRandomPassword } from './../../fonctions/fonctions.js';
+import { generateRandomId, generateRandomPassword } from '../../fonctions/fonctions.js';
 import bcrypt from "bcrypt";
 
 
