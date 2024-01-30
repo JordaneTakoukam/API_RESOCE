@@ -26,5 +26,31 @@ const isAdminOrOwnerOrManager = (req, res, next) => {
     }
 };
 
-export { isAdminOrOwnerOrManager }
+
+const isAdminOrPersonAuthorized = (req, res, next) => {
+    const token = req.header('Authorization');
+
+    if (!token) {
+        return res.status(401).json({ message: message.tokenAccesNonAutoriser });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.SECRET_JWT_KEYS);
+
+        if (decoded.cId === req.params.id || decoded.r === keyRoleApp.superAdmin || decoded.r === keyRoleApp.admin) {
+            return next();
+        } else {
+            return res.status(403).json({ message: message.roleAccesNonAutoriser });
+        }
+    } catch (error) {
+        res.status(401).json({ message: message.invalidToken });
+    }
+}
+
+
+
+
+
+
+export { isAdminOrOwnerOrManager, isAdminOrPersonAuthorized }
 

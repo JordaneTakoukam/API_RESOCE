@@ -11,6 +11,10 @@ import signInClient from "./../controllers/auths/signin/sigin_client.controller.
 import changePasswordUser from "../controllers/auths/password/change_password_user.controller.js";
 import changePasswordClient from "../controllers/auths/password/change_password_client.controller.js";
 
+// middleware
+import { isAdminOrPersonAuthorized } from "../middlewares/client_user_middleware.js";
+import { validateHeaderRequestParams } from "../validators/headerRequest.js";
+
 const router = express.Router();
 
 
@@ -22,8 +26,9 @@ router.post("/signin/user", validateSignIn, signInUser); // pas besoin d'authori
 router.post("/signin/client", validateSignIn, signInClient); // pas besoin d'authorisation
 
 // changer de mot de passe
-router.put("/password/change/user", validateChangePassword, changePasswordUser); //uniquement le concerner/super-admin
-router.put("/password/change/client", validateChangePassword, changePasswordClient); //uniquement le concerner/ admin
+// userId et clientId
+router.put("/password/change/user/:id", validateHeaderRequestParams, isAdminOrPersonAuthorized, validateChangePassword, changePasswordUser); //uniquement le concerner/super-admin/admin
+router.put("/password/change/client/:id", validateHeaderRequestParams, isAdminOrPersonAuthorized, validateChangePassword, changePasswordClient); //uniquement le concerner/super-admin/admin
 
 
 

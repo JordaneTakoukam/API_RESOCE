@@ -14,7 +14,7 @@ const isClientAuthorized = (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.SECRET_JWT_KEYS);
 
-        if (decoded.clientId === req.params.clientId) {
+        if (decoded.cId === req.params.clientId) {
             return next();
         } else {
             return res.status(403).json({ message: message.roleAccesNonAutoriser });
