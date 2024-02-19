@@ -7,6 +7,30 @@ const message = {
         fr: "Cette adresse e-mail est déjà enregistrée !",
         en: "This email address is already registered!"
     },
+    superAdminCreerAvecSuccess: {
+        fr: "Super Administrateur créer avec succès !",
+    },
+    companieNonTrouver: {
+        fr: "Companie non trouver !",
+    },
+    entrepriseExisteDeja: {
+        fr: "L'entreprise existe déjà dans la collection 'companies'."
+
+    },
+    entrepriseExistePas: {
+        fr: "L'entreprise n'existe pas !"
+
+    },
+
+
+    mauvaisFormatDeLID: {
+        fr: "L'ID de l'entreprise n'est pas au bon format."
+    },
+
+
+    superAdminDejaExistant: {
+        fr: "Un compte super-admin est existe déjà !",
+    },
     inscriptReuissie: {
         fr: "Inscription effectuée avec succès !",
         en: "Registration successful!"
@@ -39,6 +63,9 @@ const message = {
         fr: "Company créée avec succès !",
         en: "Company created successfully!"
     },
+    companyActiverSuccess: {
+        fr: "Companie activer avec succès !",
+    },
     clientCreer: {
         fr: "Client créé avec succès !",
         en: "Client created successfully!"
@@ -58,7 +85,17 @@ const message = {
     motDePasseChange: {
         fr: "Mot de passe changé avec succès !",
         en: "Password changed successfully!"
-    }
+    },
+
+    notCountryFound: {
+        fr: "Aucun pays trouvé.",
+        en: "No countries found."
+    },
+    countriesAddedSuccessfully: {
+        fr: "Pays ajoutés avec succès.",
+        en: "Countries added successfully."
+    },
+    
 };
 
 export { message };

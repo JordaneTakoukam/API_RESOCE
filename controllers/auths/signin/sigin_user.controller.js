@@ -4,7 +4,6 @@ import User from './../../../models/user.model.js';
 import { message } from './../../../configs/message.js';
 import { DateTime } from "luxon";
 
-
 const signInUser = async (req, res) => {
     const { loginId, password } = req.body;
 
@@ -29,31 +28,32 @@ const signInUser = async (req, res) => {
             });
         }
 
-
         const currentDate = DateTime.now();
 
+        // Mise à jour de l'historique de connexion
         loginUser.loginHistory.unshift(currentDate);
-
-        const user = await loginUser.save();
+        await loginUser.save();
 
         // Génération du token JWT
         const token = jwt.sign(
             {
-                cId: user._id,
-                lId: user.loginId,
-                r: user.role,
+                cId: loginUser._id,
+                lId: loginUser.loginId,
+                r: loginUser.role,
             },
             process.env.SECRET_JWT_KEYS,
             { expiresIn: '24h' }
         );
 
-
+        // Retourner les données de l'utilisateur sans le mot de passe
+        const userData = { ...loginUser.toObject() };
+        delete userData.password;
 
         res.json({
             success: true,
             message: message.connexionReussie,
             token,
-            data: user,
+            data: userData,
         });
 
     } catch (error) {

@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
-import Client from './../../../models/client.model.js';
-import { message } from './../../../configs/message.js';
+import Client from '../../../../models/client.model.js';
+import { message } from '../../../../configs/message.js';
 
 const changePasswordClient = async (req, res) => {
     const { loginId, oldPassword, newPassword } = req.body;
@@ -17,7 +17,7 @@ const changePasswordClient = async (req, res) => {
         }
 
         // Vérification de l'ancien mot de passe
-        const passwordMatch = await bcrypt.compare(oldPassword, client.profile.password);
+        const passwordMatch = await bcrypt.compare(oldPassword, client.password);
 
         if (!passwordMatch) {
             return res.status(401).json({
@@ -30,7 +30,7 @@ const changePasswordClient = async (req, res) => {
         const hashedPassword = await bcrypt.hash(newPassword, 10);
 
         // Mise à jour du mot de passe dans le profil du client
-        client.profile.password = hashedPassword;
+        client.password = hashedPassword;
 
         // Enregistrement des modifications
         await client.save();

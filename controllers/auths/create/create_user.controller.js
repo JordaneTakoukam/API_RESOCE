@@ -1,16 +1,19 @@
 import bcrypt from "bcrypt";
 import { DateTime } from "luxon";
 import jwt from 'jsonwebtoken';
-import User from './../../../models/user.model.js';
-import { message } from './../../../configs/message.js';
-import { generateRandomId } from './../../../fonctions/fonctions.js';
+import User from '../../../models/user.model.js';
+import { message } from '../../../configs/message.js';
+import { generateRandomPassword, generateRandomUserId } from "../../../fonctions/fonctions.js";
 
-const signUpUser = async (req, res) => {
-    const { email, firstName, lastName, role, password } = req.body;
+
+export const createUser = async (req, res) => {
+    const { username, email, role } = req.body;
 
     try {
+
         // Vérifier si l'utilisateur existe déjà avec cet e-mail
         const existingUserWithEmail = await User.findOne({ email });
+
         if (existingUserWithEmail) {
             return res.status(400).json({
                 success: false,
@@ -18,31 +21,34 @@ const signUpUser = async (req, res) => {
             });
         }
 
+
         // Générer un identifiant de connexion unique
-        let loginId = generateRandomId();
+        let loginId = generateRandomUserId();
         let existingUserWithLoginId = await User.findOne({ loginId });
 
         // Vérifier si le loginId existe déjà et le régénérer jusqu'à ce qu'il soit unique
         while (existingUserWithLoginId) {
-            loginId = generateRandomId();
+            loginId = generateRandomUserId();
             existingUserWithLoginId = await User.findOne({ loginId });
         }
 
+        let passwordGenerate = generateRandomPassword();
+        console.log('Mot de passe = ', passwordGenerate);
+
         // Hash du mot de passe
         const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        const hashedPassword = await bcrypt.hash(passwordGenerate, saltRounds);
         const currentDate = DateTime.now();
 
         // Créer un nouvel utilisateur
         const newUser = new User({
             loginId,
             email,
-            firstName,
-            lastName,
+            username,
             role,
             password: hashedPassword,
             registrationDate: currentDate,
-            loginHistory: [new Date(currentDate)]
+            loginHistory: []
         });
 
         const user = await newUser.save();
@@ -58,11 +64,16 @@ const signUpUser = async (req, res) => {
             { expiresIn: '24h' }
         );
 
+
+        // on retourne tous sauf le password
+        const userData = user.toObject();
+        delete userData.password;
+
         res.json({
             success: true,
             message: message.inscriptReuissie,
             token,
-            data: user,
+            data: userData,
         });
 
     } catch (error) {
@@ -74,4 +85,3 @@ const signUpUser = async (req, res) => {
     }
 };
 
-export default signUpUser;

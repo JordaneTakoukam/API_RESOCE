@@ -4,16 +4,20 @@ import yup from "yup";
 async function validateCreateClient(req, res, next) {
     try {
         const schema = yup.object().shape({
-            companyId: yup.string().required(),
-            role: yup.string().required(),
-            fonction: yup.string().required(),
-            username: yup.string().required(),
-            email: yup.string().required(),
-            createdby: yup.object().shape({
-                type: yup.string().required(),
+            profile: yup.object().shape({
+                username: yup.string().required(),
+                email: yup.string().email().required(),
+            }).required(),
+            companyInfos: yup.array().of(yup.object().shape({
+                companyId: yup.string().required(),
                 role: yup.string().required(),
-                id: yup.mixed().required(),
-            }).required()
+                fonction: yup.string().default('member'),
+                createdBy: yup.object().shape({
+                    type: yup.string().required(),
+                    role: yup.string().required(),
+                    id: yup.mixed().required(),
+                }).required()
+            })).required(),
         });
 
         const validatedData = await schema.validate(req.body);
@@ -26,6 +30,7 @@ async function validateCreateClient(req, res, next) {
         });
     }
 }
+
 
 
 
@@ -33,20 +38,26 @@ async function validateCreateClient(req, res, next) {
 async function validateCreateClientOwner(req, res, next) {
     try {
         const schema = yup.object().shape({
-            companyId: yup.string().required(),
-            fonction: yup.string().required(),
-            username: yup.string().required(),
-            email: yup.string().required(),
-            createdby: yup.object().shape({
-                type: yup.string().required(),
-                role: yup.string().required(),
-                id: yup.mixed().required(),
-            }).required()
+            profile: yup.object().shape({
+                username: yup.string().required(),
+                email: yup.string().email().required(),
+            }).required(),
+            companyInfos: yup.array().of(yup.object().shape({
+                companyId: yup.string().required(),
+                fonction: yup.string().default('member'),
+                createdBy: yup.object().shape({
+                    type: yup.string().required(),
+                    role: yup.string().required(),
+                    id: yup.mixed().required(),
+                }).required(),
+            
+            })).required(),
         });
 
         const validatedData = await schema.validate(req.body);
         req.validatedData = validatedData;
         next();
+
     } catch (error) {
         res.status(400).json({
             success: false,
@@ -54,6 +65,8 @@ async function validateCreateClientOwner(req, res, next) {
         });
     }
 }
+
+
 
 
 export { validateCreateClient, validateCreateClientOwner };
