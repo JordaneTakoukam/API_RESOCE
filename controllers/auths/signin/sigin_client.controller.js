@@ -19,7 +19,7 @@ const signClient = async (req, res) => {
         }
 
         // Vérification du mot de passe
-        const passwordMatch = await bcrypt.compare(password, client.profile.password);
+        const passwordMatch = await bcrypt.compare(password, client.password);
 
         if (!passwordMatch) {
             return res.status(401).json({
@@ -41,7 +41,7 @@ const signClient = async (req, res) => {
                 r: client.role,
             },
             process.env.SECRET_JWT_KEYS,
-            { expiresIn: '24h' }
+            { expiresIn: '30d' }
         );
 
         res.json({

@@ -1,4 +1,4 @@
-const keyRoleApp = {
+export const keyRoleApp = {
     // users
     superAdmin: 'super-admin',
     admin: 'admin',
@@ -11,4 +11,7 @@ const keyRoleApp = {
 
 }
 
-export { keyRoleApp }
+export const keyCompanyState = {
+    companyActivated: 'company-activated',
+    companyNotActivated: 'company-not-activated',
+};

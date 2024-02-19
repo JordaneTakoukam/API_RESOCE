@@ -1,39 +1,40 @@
 import { ObjectId } from 'mongodb';
 import mongoose, { Schema } from 'mongoose';
+import { keyCompanyState, keyRoleApp } from '../configs/key_role.js';
 
-const clientShema = new Schema({
-    companyId: { type: String, required: true },
-    role: { type: String, required: true },
-    fonction: { type: String, default: 'employed' },
+const clientSchema = new Schema({
+    email: { type: String, required: true },
+
     loginId: { type: String, required: true },
+    password: { type: String, required: true },
+
+    loginHistory: [{ type: Date, required: true }],
+    registrationDate: { type: Date, required: true },
+
     profile: {
         username: { type: String, required: true },
-        password: { type: String, required: true },
-        email: { type: String, required: true },
         profilePicture: { type: String, default: '' },
     },
-    registrationDate: { type: Date, required: true },
-    loginHistory: [{ type: Date, required: true }],
-
-    online: {
-        status: { type: Boolean, default: false },
-        lastOnlineDate: { type: Date, default: null },
-    },
-    createdby: {
-        type: { type: String, required: true },
-        role: { type: String, required: true },
-        id: { type: ObjectId, required: true },
+    gender: { type: String, enum: ["", "m", "f"], default: "" },
+    companyState: { type: String, enum: Object.values(keyCompanyState), default: "" },
+    companyId: { type: ObjectId, required: true },
+    role: { type: String, default: keyRoleApp.member },
+    fonction: { type: String, default: "" },
+    createdBy: {
+        role: { type: String },
+        id: { type: String },
     },
     active: {
+        blocked: { type: Boolean, default: false },
         suspended: { type: Boolean, default: false },
-        suspensionDurationInHours: { type: String, default: null },
+        suspensionDuration: { type: String, default: '0h' }, //0h, 0d, 0m
         startDate: { type: Date, default: null },
         endDate: { type: Date, default: null },
-    }
+    },
+    contacts: [{ type: ObjectId }]
+
 });
 
-
-const Client = mongoose.model('Client', clientShema, 'clients');
-
+const Client = mongoose.model('Client', clientSchema, 'clients');
 
 export default Client;
