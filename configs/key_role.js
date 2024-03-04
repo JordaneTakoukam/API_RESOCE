@@ -1,17 +1,9 @@
 export const keyRoleApp = {
-    // users
     superAdmin: 'super-admin',
     admin: 'admin',
-    moderator: 'moderator',
-
-    //clients
-    owner: 'owner',
-    manager: 'manager',
-    member: 'member',
-
+    enseignant: 'enseignant',
+    delegue: 'delegue',
+    etudiant: 'etudiant',
 }
 
-export const keyCompanyState = {
-    companyActivated: 'company-activated',
-    companyNotActivated: 'company-not-activated',
-};
+

@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get("/", (_, res) => {
     res.status(200).json({
-        message: "Welcome to the Resoce API",
+        message: "Welcome to the API",
         status: true,
     });
 });
